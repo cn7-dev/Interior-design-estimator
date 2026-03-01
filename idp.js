@@ -103,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const encodedMsg = encodeURIComponent(customMsg);
 
-    const phNo = "917892729670";
+    const phNo = "917777777777";
 
     const whatsappUrl = `https://wa.me/${phNo}?text=${encodedMsg}`;
     window.open(whatsappUrl, "_blank");
