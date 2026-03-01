@@ -80,14 +80,15 @@ document.addEventListener("DOMContentLoaded", () => {
   whats_btn.addEventListener("click", (event) => {
     event.preventDefault();
     const roomType = rooms.value;
-    const roomDim = sqr_price.value;
+    const roomDimRaw = sqr_price.value;
+    const roomDim = Number(roomDimRaw);
     const roomQualty = document.querySelector(
       'input[name="quality"]:checked',
     ).value;
 
     const curEst = est_cost.textContent;
 
-    if (roomDim === 0 || isNaN(roomDim) || curEst === 0) {
+    if (roomDimRaw === "" || roomDim <= 0 || isNaN(roomDim) || curEst === "₹0") {
       alert("Please enter the square footage to get the estimate first");
       return;
     }
