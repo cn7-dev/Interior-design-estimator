@@ -1,0 +1,189 @@
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    color: #E0E0E0; 
+    
+    /* 1. The Background Image & Dark Overlay */
+    background-image: 
+        linear-gradient(rgba(145, 144, 144, 0.8), rgba(3, 2, 2, 0.8)), 
+        url('https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?q=80&w=2000&auto=format&fit=crop'); 
+    
+    /* 2. Background Image Behavior */
+    background-size: cover; /* Forces the image to fill the entire screen */
+    background-position: center; /* Centers the focal point of the image */
+    background-repeat: no-repeat; /* Stops the image from tiling like a checkerboard */
+    background-attachment: fixed; /* Keeps the image still if the user scrolls */
+
+    /* Perfect Dead-Center Alignment */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px; 
+}
+
+.estimator-container {
+    background-color: #1E1E1E;
+    border: 1px solid #474747; 
+    border-radius: 12px;
+    padding: 40px 30px;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: 0 20px 40px rgba(73, 73, 73, 0.6); 
+}
+
+.estimator-container h2 {
+    color: #D4AF37; /* Muted Premium Brass/Gold */
+    font-weight: 400;
+    letter-spacing: 1.5px;
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.estimator-container p {
+    text-align: center;
+    color: #888888;
+    font-size: 14px;
+    margin-bottom: 30px;
+}
+
+
+.form-group {
+    display: flex;
+    flex-direction: column; /* Stacks labels above inputs cleanly */
+    margin-bottom: 20px;
+}
+
+label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: #999999;
+    margin-bottom: 8px;
+}
+
+/* Inputs & Dropdowns */
+input[type="number"], 
+select {
+    width: 100%;
+    background-color: #121212;
+    border: 1px solid #333333;
+    color: #E0E0E0;
+    padding: 14px;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+/* The Glow Effect when typing */
+input[type="number"]:focus, 
+select:focus {
+    outline: none;
+    border-color: #D4AF37;
+    box-shadow: 0 0 8px rgba(212, 175, 55, 0.2); /* Soft gold glow */
+}
+
+/* Hide the ugly browser arrows on number inputs */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+.radio-group-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Creates 3 perfectly equal columns */
+    gap: 12px;
+    width: 100%;
+}
+
+/* 1. Hide the default ugly radio circle completely */
+input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* 2. Style the Label to look like a premium clickable card */
+input[type="radio"] + label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 14px 10px;
+    background-color: #121212; /* Matches the input fields */
+    border: 1px solid #333333;
+    border-radius: 6px;
+    color: #888888;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 0; 
+}
+
+/* Hover state for a nice desktop feel */
+input[type="radio"]:not(:checked) + label:hover {
+    border-color: #555;
+    color: #E0E0E0;
+}
+
+/* 3. The Active/Selected State (The Luxury Gold Glow) */
+input[type="radio"]:checked + label {
+    border-color: #D4AF37; /* Aged Brass Border */
+    color: #D4AF37; /* Aged Brass Text */
+    background-color: rgba(212, 175, 55, 0.05); /* Extremely subtle gold tint inside */
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.15); /* Soft outer glow */
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid #333333;
+    margin: 30px 0;
+}
+
+.result-area h3 {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 400;
+    color: #AAAAAA;
+}
+
+.total-price {
+    display: block;
+    color: #D4AF37;
+    font-size: 36px;
+    font-weight: bold;
+    margin-top: 10px;
+    letter-spacing: 1px;
+}
+
+/* The WhatsApp Lead Generation Button */
+.whatsapp-btn {
+    width: 100%;
+    background-color: #1E3F33; /* Deep luxury forest green */
+    color: #FFFFFF;
+    border: 1px solid #2A5C4A;
+    padding: 16px;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    margin-top: 25px;
+}
+
+.whatsapp-btn:hover {
+    background-color: #255241;
+    box-shadow: 0 5px 15px rgba(30, 63, 51, 0.4);
+}

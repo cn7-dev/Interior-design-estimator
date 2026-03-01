@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Renovation Cost Estimator</title>
+    <link rel="stylesheet" href="idp.css">
+    <script src="idp.js"></script>
+</head>
+<body>
+
+<div class="estimator-container">
+    <h2>Interior Design Estimator</h2>
+    <p>Get an instant rough estimate for your project.</p>
+
+    <form class="estimator-form">
+        
+        <div class="form-group">
+            <label  id="room">Which room are you renovating?</label>
+            <select class="rooms" id="rooms-opt">
+                <option value="living">Living Room</option>
+                <option value="kitchen">Kitchen</option>
+                <option value="bedroom">Bedroom</option>
+                <option value="bathroom">Bathroom</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label id="sqft">Approximate Square Footage:</label>
+            <input type="number" id="sqft-inpt" class="sqft" name="sqft" min="50" placeholder="e.g., 150">
+        </div>
+
+        <div class="form-group" id="quality-opt">
+            <label>Finish Quality:</label>
+            
+            <input type="radio" id="standard" class="standard" name="quality" value="standard" checked>
+            <label for="standard">Standard</label>
+
+            <input type="radio" id="premium" class="premium" name="quality" value="premium">
+            <label for="premium">Premium</label>
+
+            <input type="radio" id="luxury" class="luxury" name="quality" value="luxury">
+            <label for="luxury">Luxury</label>
+        </div>
+
+    </form>
+
+    <hr>
+
+    <div class="result-area">
+        <h3>Estimated Cost: <span class="total-price" id="total-price">₹0</span></h3>
+    </div>
+
+    <button class="whatsapp-btn" id="whatsapp-btn">Send me a detailed breakdown via WhatsApp</button>
+
+</div>
+
+</body>
+</html>
