@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
   est_cost = document.getElementById("total-price");
   whats_btn = document.getElementById("whatsapp-btn");
 
+  est_cost.textContent = "Fill in the details to see the estimate";
+
   const baseRates = {
     living: 800,
     kitchen: 1500,
@@ -25,8 +27,9 @@ document.addEventListener("DOMContentLoaded", () => {
       'input[name="quality"]:checked',
     ).value;
 
-    if (roomSqft === 0 || isNaN(roomSqft)) {
-      est_cost.textContent = "₹0";
+    if (roomSqft === 0 || isNaN(roomSqft) || !roomSqft) {
+      est_cost.textContent = "Fill in the details to see the estimate";
+      est_cost.setAttribute("data-placeholder", "true");
       return;
     }
 
@@ -35,39 +38,40 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const totalCost = roomPrice * roomSqft * multiplier;
     est_cost.textContent = "₹" + Math.round(totalCost).toLocaleString("en-IN");
+    est_cost.removeAttribute("data-placeholder");
 
-    localStorage.setItem("savedRoom", sltRoom);
-    localStorage.setItem("savedSqft", roomSqft);
-    localStorage.setItem("savedQlt", roomQlt);
+    // localStorage.setItem("savedRoom", sltRoom);
+    // localStorage.setItem("savedSqft", roomSqft);
+    // localStorage.setItem("savedQlt", roomQlt);
   }
 
-  function restoreData() {
-    const currrentRoom = localStorage.getItem("savedRoom");
-    const currentSqft = localStorage.getItem("savedSqft");
-    const currentQlt = localStorage.getItem("savedQlt");
+  // function restoreData() {
+  //   const currrentRoom = localStorage.getItem("savedRoom");
+  //   const currentSqft = localStorage.getItem("savedSqft");
+  //   const currentQlt = localStorage.getItem("savedQlt");
 
-    if (currrentRoom) {
-      rooms.value = currrentRoom;
-    }
+  //   if (currrentRoom) {
+  //     rooms.value = currrentRoom;
+  //   }
 
-    if (currentSqft) {
-      sqr_price.value = currentSqft;
-    }
+  //   if (currentSqft) {
+  //     sqr_price.value = currentSqft;
+  //   }
 
-    if (currentQlt) {
-      const radioSlt = document.querySelector(
-        `input[name="quality"][value="${currentQlt}"]`,
-      );
-      if (radioSlt) {
-        radioSlt.checked = true;
-      }
-    }
+  //   if (currentQlt) {
+  //     const radioSlt = document.querySelector(
+  //       `input[name="quality"][value="${currentQlt}"]`,
+  //     );
+  //     if (radioSlt) {
+  //       radioSlt.checked = true;
+  //     }
+  //   }
 
-    if (currrentRoom && currentSqft) {
-      calculateTotal();
-    }
-  }
-  restoreData();
+  //   if (currrentRoom && currentSqft) {
+  //     calculateTotal();
+  //   }
+  // }
+  // restoreData();
 
   rooms.addEventListener("change", calculateTotal);
   sqr_price.addEventListener("input", calculateTotal);
@@ -80,15 +84,14 @@ document.addEventListener("DOMContentLoaded", () => {
   whats_btn.addEventListener("click", (event) => {
     event.preventDefault();
     const roomType = rooms.value;
-    const roomDimRaw = sqr_price.value;
-    const roomDim = Number(roomDimRaw);
+    const roomDim = sqr_price.value;
     const roomQualty = document.querySelector(
       'input[name="quality"]:checked',
     ).value;
 
     const curEst = est_cost.textContent;
 
-    if (roomDimRaw === "" || roomDim <= 0 || isNaN(roomDim) || curEst === "₹0") {
+    if (roomDim === 0 || isNaN(roomDim) || curEst === 0 || !roomDim) {
       alert("Please enter the square footage to get the estimate first");
       return;
     }
@@ -104,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const encodedMsg = encodeURIComponent(customMsg);
 
-    const phNo = "917777777777";
+    const phNo = "917892729670";
 
     const whatsappUrl = `https://wa.me/${phNo}?text=${encodedMsg}`;
     window.open(whatsappUrl, "_blank");

@@ -1,189 +1,419 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap');
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+/* ─── Design Tokens ─────────────────────────────────────────────────── */
+:root {
+  --ink:        #1a1612;
+  --surface:    #211d19;
+  --surface-2:  #2c2721;
+  --border:     #3d3730;
+  --border-lit: #c9a84c;
+  --gold:       #c9a84c;
+  --gold-dim:   #a07d2e;
+  --gold-glow:  rgba(201, 168, 76, 0.18);
+  --ivory:      #f0e8d8;
+  --muted:      #8a8070;
+  --text:       #ddd5c5;
+  --radius:     4px;
 }
+
+/* ─── Reset & Base ──────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-    font-family: "Helvetica Neue", Arial, sans-serif;
-    color: #E0E0E0; 
-    
-    /* 1. The Background Image & Dark Overlay */
-    background-image: 
-        linear-gradient(rgba(145, 144, 144, 0.8), rgba(3, 2, 2, 0.8)), 
-        url('https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?q=80&w=2000&auto=format&fit=crop'); 
-    
-    /* 2. Background Image Behavior */
-    background-size: cover; /* Forces the image to fill the entire screen */
-    background-position: center; /* Centers the focal point of the image */
-    background-repeat: no-repeat; /* Stops the image from tiling like a checkerboard */
-    background-attachment: fixed; /* Keeps the image still if the user scrolls */
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  position: relative;
+  overflow-x: hidden;
 
-    /* Perfect Dead-Center Alignment */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px; 
+  /* Layered background: grain + radial warmth + dark base */
+  background-color: var(--ink);
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse 80% 60% at 60% 40%, rgba(100, 70, 20, 0.25) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 50% at 10% 90%, rgba(60, 40, 10, 0.2) 0%, transparent 60%),
+    url('https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?q=80&w=2000&auto=format&fit=crop');
+  background-size: 256px 256px, 100% 100%, 100% 100%, cover;
+  background-position: auto, center, center, center;
+  background-attachment: fixed;
 }
 
+/* Overlay vignette */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at center, transparent 40%, rgba(10, 8, 6, 0.65) 100%),
+    linear-gradient(rgba(16, 12, 8, 0.82), rgba(10, 8, 6, 0.88));
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── Card ──────────────────────────────────────────────────────────── */
 .estimator-container {
-    background-color: #1E1E1E;
-    border: 1px solid #474747; 
-    border-radius: 12px;
-    padding: 40px 30px;
-    width: 100%;
-    max-width: 480px;
-    box-shadow: 0 20px 40px rgba(73, 73, 73, 0.6); 
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 500px;
+  background: linear-gradient(160deg, #26211b 0%, #1c1814 100%);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 52px 44px 44px;
+  box-shadow:
+    0 0 0 1px rgba(201, 168, 76, 0.06),
+    0 40px 80px rgba(0, 0, 0, 0.7),
+    0 8px 24px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 245, 220, 0.06);
+
+  /* Entrance animation */
+  animation: cardIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(28px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Corner ornaments */
+.estimator-container::before,
+.estimator-container::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-color: var(--gold-dim);
+  border-style: solid;
+  opacity: 0.6;
+}
+.estimator-container::before {
+  top: 14px; left: 14px;
+  border-width: 1px 0 0 1px;
+}
+.estimator-container::after {
+  bottom: 14px; right: 14px;
+  border-width: 0 1px 1px 0;
+}
+
+/* ─── Header ────────────────────────────────────────────────────────── */
 .estimator-container h2 {
-    color: #D4AF37; /* Muted Premium Brass/Gold */
-    font-weight: 400;
-    letter-spacing: 1.5px;
-    text-align: center;
-    margin-bottom: 8px;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: 30px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--ivory);
+  text-align: center;
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+
+.estimator-container h2 em {
+  font-style: italic;
+  color: var(--gold);
+  font-weight: 400;
 }
 
 .estimator-container p {
-    text-align: center;
-    color: #888888;
-    font-size: 14px;
-    margin-bottom: 30px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  margin-bottom: 38px;
 }
 
+/* Decorative rule under subtitle */
+.estimator-container p::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+  margin: 16px auto 0;
+}
 
+/* ─── Form Groups ───────────────────────────────────────────────────── */
 .form-group {
-    display: flex;
-    flex-direction: column; /* Stacks labels above inputs cleanly */
-    margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 22px;
+  animation: fadeUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.form-group:nth-child(1) { animation-delay: 0.15s; }
+.form-group:nth-child(2) { animation-delay: 0.25s; }
+.form-group:nth-child(3) { animation-delay: 0.35s; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 label {
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    color: #999999;
-    margin-bottom: 8px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  color: var(--muted);
+  margin-bottom: 10px;
+  font-weight: 400;
 }
 
-/* Inputs & Dropdowns */
-input[type="number"], 
+/* ─── Inputs & Selects ──────────────────────────────────────────────── */
+input[type="number"],
 select {
-    width: 100%;
-    background-color: #121212;
-    border: 1px solid #333333;
-    color: #E0E0E0;
-    padding: 14px;
-    border-radius: 6px;
-    font-size: 16px;
-    transition: all 0.3s ease;
+  width: 100%;
+  background-color: rgba(10, 8, 6, 0.6);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 15px 16px;
+  border-radius: var(--radius);
+  font-family: 'Jost', sans-serif;
+  font-size: 15px;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
-/* The Glow Effect when typing */
-input[type="number"]:focus, 
+select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a8070' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  padding-right: 40px;
+  cursor: pointer;
+}
+
+input[type="number"]:focus,
 select:focus {
-    outline: none;
-    border-color: #D4AF37;
-    box-shadow: 0 0 8px rgba(212, 175, 55, 0.2); /* Soft gold glow */
+  outline: none;
+  border-color: var(--gold);
+  background-color: rgba(15, 12, 8, 0.8);
+  box-shadow: 0 0 0 3px var(--gold-glow), 0 4px 16px rgba(0,0,0,0.3);
 }
 
-/* Hide the ugly browser arrows on number inputs */
+input[type="number"]::placeholder { color: #4a4440; }
+
 input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
+input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 
-
+/* ─── Radio Cards ───────────────────────────────────────────────────── */
 .radio-group-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Creates 3 perfectly equal columns */
-    gap: 12px;
-    width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  width: 100%;
 }
 
-/* 1. Hide the default ugly radio circle completely */
 input[type="radio"] {
-    position: absolute;
-    opacity: 0;
-    width: 0;
-    height: 0;
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
 }
 
-/* 2. Style the Label to look like a premium clickable card */
 input[type="radio"] + label {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 14px 10px;
-    background-color: #121212; /* Matches the input fields */
-    border: 1px solid #333333;
-    border-radius: 6px;
-    color: #888888;
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin: 0; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  padding: 16px 10px;
+  background-color: rgba(10, 8, 6, 0.5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--muted);
+  font-family: 'Jost', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  margin: 0;
+  position: relative;
+  overflow: hidden;
 }
 
-/* Hover state for a nice desktop feel */
+input[type="radio"] + label::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--gold-glow) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
 input[type="radio"]:not(:checked) + label:hover {
-    border-color: #555;
-    color: #E0E0E0;
+  border-color: #5a5248;
+  color: var(--text);
+  transform: translateY(-1px);
 }
 
-/* 3. The Active/Selected State (The Luxury Gold Glow) */
 input[type="radio"]:checked + label {
-    border-color: #D4AF37; /* Aged Brass Border */
-    color: #D4AF37; /* Aged Brass Text */
-    background-color: rgba(212, 175, 55, 0.05); /* Extremely subtle gold tint inside */
-    box-shadow: 0 0 12px rgba(212, 175, 55, 0.15); /* Soft outer glow */
+  border-color: var(--gold);
+  color: var(--gold);
+  background-color: rgba(201, 168, 76, 0.06);
+  box-shadow: 0 0 20px rgba(201, 168, 76, 0.12), inset 0 1px 0 rgba(201, 168, 76, 0.15);
+}
+input[type="radio"]:checked + label::before { opacity: 1; }
+
+/* Small tier icon dots */
+input[type="radio"] + label .tier-dot {
+  display: flex;
+  gap: 3px;
+  margin-bottom: 2px;
+}
+input[type="radio"] + label .tier-dot span {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.6;
 }
 
+/* ─── Divider ───────────────────────────────────────────────────────── */
 hr {
-    border: 0;
-    border-top: 1px solid #333333;
-    margin: 30px 0;
+  border: 0;
+  position: relative;
+  margin: 34px 0;
+}
+hr::before {
+  content: '';
+  display: block;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border) 20%, var(--border) 80%, transparent);
+}
+hr::after {
+  content: '◆';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #201914;
+  color: var(--gold-dim);
+  font-size: 8px;
+  padding: 0 10px;
+  letter-spacing: 0;
+}
+
+/* ─── Result Area ───────────────────────────────────────────────────── */
+.result-area {
+  text-align: center;
 }
 
 .result-area h3 {
-    text-align: center;
-    font-size: 18px;
-    font-weight: 400;
-    color: #AAAAAA;
+  font-family: 'Jost', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 10px;
 }
 
 .total-price {
-    display: block;
-    color: #D4AF37;
-    font-size: 36px;
-    font-weight: bold;
-    margin-top: 10px;
-    letter-spacing: 1px;
+  display: block;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: 52px;
+  line-height: 1;
+  letter-spacing: 2px;
+  color: var(--gold);
+  margin: 6px 0 4px;
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* The WhatsApp Lead Generation Button */
+/* Placeholder state */
+.total-price[data-placeholder="true"] {
+  font-family: 'Jost', sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  letter-spacing: 1.5px;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.result-area small {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #5a5248;
+  margin-top: 6px;
+}
+
+/* ─── WhatsApp Button ───────────────────────────────────────────────── */
 .whatsapp-btn {
-    width: 100%;
-    background-color: #1E3F33; /* Deep luxury forest green */
-    color: #FFFFFF;
-    border: 1px solid #2A5C4A;
-    padding: 16px;
-    font-size: 15px;
-    font-weight: bold;
-    border-radius: 6px;
-    cursor: pointer;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: all 0.3s ease;
-    margin-top: 25px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #1a3d2b 0%, #0f2a1c 100%);
+  color: var(--ivory);
+  border: 1px solid #2e6b4a;
+  padding: 18px 24px;
+  font-family: 'Jost', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  border-radius: var(--radius);
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  margin-top: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* Shimmer sweep on hover */
+.whatsapp-btn::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+  transition: left 0.5s ease;
 }
 
 .whatsapp-btn:hover {
-    background-color: #255241;
-    box-shadow: 0 5px 15px rgba(30, 63, 51, 0.4);
+  background: linear-gradient(135deg, #255241 0%, #173d2a 100%);
+  border-color: #3d9469;
+  box-shadow: 0 8px 30px rgba(30, 90, 60, 0.35), 0 2px 8px rgba(0,0,0,0.4);
+  transform: translateY(-2px);
+  letter-spacing: 3px;
+}
+
+.whatsapp-btn:hover::before { left: 150%; }
+
+.whatsapp-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+
+/* WhatsApp icon */
+.whatsapp-btn svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  fill: #4caf80;
+  transition: transform 0.3s ease;
+}
+.whatsapp-btn:hover svg { transform: scale(1.15); }
+
+/* ─── Responsive ────────────────────────────────────────────────────── */
+@media (max-width: 520px) {
+  .estimator-container {
+    padding: 40px 28px 36px;
+  }
+  .estimator-container h2 { font-size: 24px; }
+  .total-price { font-size: 42px; }
 }
