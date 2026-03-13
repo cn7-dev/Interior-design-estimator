@@ -110,6 +110,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   whats_btn.addEventListener("click", (event) => {
     event.preventDefault();
+
+    if (est_cost.getAttribute("data-placeholder") === "true") {
+      alert("Please enter a valid area to get your estimate first");
+      return;
+    }
+
     const roomType = rooms.value;
     const roomDim = sqr_price.value;
     const roomQualty = document.querySelector(
@@ -118,13 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const curEst = est_cost.textContent;
 
-    if (
-      roomDim === 0 ||
-      isNaN(roomDim) ||
-      curEst === 0 ||
-      !roomDim ||
-      curEst != Number
-    ) {
+    if (roomDim === 0 || isNaN(roomDim) || curEst === 0 || !roomDim) {
       alert("Check For The Valid Input");
       return;
     }
