@@ -20,6 +20,21 @@ document.addEventListener("DOMContentLoaded", () => {
     luxury: 1.8,
   };
 
+  sqr_price.addEventListener("keydown", (e) => {
+    // Allow: backspace, delete, tab, arrows, and digits only
+    const allowed = [
+      "Backspace",
+      "Delete",
+      "Tab",
+      "ArrowLeft",
+      "ArrowRight",
+      "ArrowUp",
+      "ArrowDown",
+    ];
+    if (allowed.includes(e.key)) return;
+    if (!/^\d$/.test(e.key)) e.preventDefault();
+  });
+
   function calculateTotal() {
     const sltRoom = rooms.value;
     const roomSqft = Number(sqr_price.value);
@@ -33,10 +48,22 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    if (roomSqft < 50) {
+      est_cost.textContent = "Minimum area is 50 sq ft";
+      est_cost.setAttribute("data-placeholder", "true");
+      return;
+    }
+
+    if (roomSqft > 50000) {
+      est_cost.textContent = "Please enter a valid area (max 50,000 sq ft)";
+      est_cost.setAttribute("data-placeholder", "true");
+      return;
+    }
+
     const roomPrice = baseRates[sltRoom];
     const multiplier = qualityMultipliers[roomQlt];
-
     const totalCost = roomPrice * roomSqft * multiplier;
+
     est_cost.textContent = "₹" + Math.round(totalCost).toLocaleString("en-IN");
     est_cost.removeAttribute("data-placeholder");
 
@@ -91,8 +118,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const curEst = est_cost.textContent;
 
-    if (roomDim === 0 || isNaN(roomDim) || curEst === 0 || !roomDim) {
-      alert("Please enter the square footage to get the estimate first");
+    if (
+      roomDim === 0 ||
+      isNaN(roomDim) ||
+      curEst === 0 ||
+      !roomDim ||
+      curEst != Number
+    ) {
+      alert("Check For The Valid Input");
       return;
     }
 

@@ -320,11 +320,11 @@ hr::after {
 
 .total-price {
   display: block;
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 300;
-  font-size: 52px;
+  font-family: 'Jost', sans-serif;   
+  font-weight: 400;                   
+  font-size: 38px;                    
   line-height: 1;
-  letter-spacing: 2px;
+  letter-spacing: 1px;               
   color: var(--gold);
   margin: 6px 0 4px;
   transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
@@ -333,7 +333,7 @@ hr::after {
 /* Placeholder state */
 .total-price[data-placeholder="true"] {
   font-family: 'Jost', sans-serif;
-  font-size: 13px;
+  font-size: 20px;
   font-weight: 300;
   letter-spacing: 1.5px;
   color: var(--muted);
