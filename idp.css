@@ -417,3 +417,13 @@ hr::after {
   .estimator-container h2 { font-size: 24px; }
   .total-price { font-size: 42px; }
 }
+
+.designer-credit {
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    color: #4a4440;
+    margin-top: 24px;
+    margin-bottom: 0;
+    text-transform: uppercase;
+}
